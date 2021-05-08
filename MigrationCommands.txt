@@ -1,0 +1,14 @@
+## GENERATE NEW MODEL
+npx sequelize-cli model:generate --name User --attributes firstName:string
+
+## ADD COLUMN
+npx sequelize migration:create --name name_of_your_migration
+
+## RUN migration
+npx sequelize db:migrate
+
+## GENERATE SEEDER
+npx sequelize-cli seed:generate --name demo-user
+
+## RUNNING Seeder
+npx sequelize-cli db:seed:all
