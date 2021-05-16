@@ -175,5 +175,13 @@ router.put('/update-podcast/:id', authenticationMiddleware.authenticateArtistReq
 router.delete('/delete-podcast/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deletePodcast) // Delete Podcast
 
 
+router.post('/podcast-category-add', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addPodcastCategorySchema, 'body'), artistController.addPodcastCategory); // Add Podcast Category
+router.get('/podcast-category-list', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.listPodcastcategorySchema, 'query'), artistController.listPodcastCategory); // List Podcast Category
+router.delete('/delete-podcast-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deletePodcastCategory); // Delete Podcast Category
+
+
+router.post('/album-category-add', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addAlbumCategorySchema, 'body'), artistController.addAlbumCategory); // Add Podcast Category
+router.get('/album-category-list', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.listAlbumcategorySchema, 'query'), artistController.listAlbumCategory); // List Podcast Category
+router.delete('/delete-album-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deleteAlbumCategory); // Delete Podcast Category
 
 module.exports = router;

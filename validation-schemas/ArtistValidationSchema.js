@@ -138,3 +138,24 @@ module.exports.podcastsList = Joi.object().keys({
     page: Joi.number().min(1).required(),
     search: Joi.string().required().allow('', null),
 });
+
+
+// Add Podcast Category Schema
+module.exports.addPodcastCategorySchema = Joi.object().keys({
+    name: Joi.string().required(),
+});
+// List Podcast Category Schema
+module.exports.listPodcastcategorySchema = Joi.object().keys({
+    page: Joi.number().min(1).required(),
+    search: Joi.string().required().allow('', null),
+});
+
+// Add Podcast Category Schema
+module.exports.addAlbumCategorySchema = Joi.object().keys({
+    name: Joi.string().required(),
+});
+// List Podcast Category Schema
+module.exports.listAlbumcategorySchema = Joi.object().keys({
+    page: Joi.number().min(1).required(),
+    search: Joi.string().required().allow('', null),
+});
