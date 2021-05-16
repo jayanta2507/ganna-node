@@ -1,11 +1,11 @@
 {
     "development": {
         "username": "root",
-        "password": "UxzpT>j56.3u#{%y",
-        "database": "kawawa_music",
+        "password": "",
+        "database": "ganna_music",
         "host": "127.0.0.1",
         "dialect": "mysql"
-    },
+    }, 
     "test": {
         "username": "root",
         "password": null,
