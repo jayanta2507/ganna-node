@@ -81,4 +81,7 @@ module.exports = {
     songDelete: `Song deleted successfully`,
     podcastUpload: `Podcast uploaded successfully`,
     podcastCoverUpload: `Podcast cover image uploaded successfully`,
+    duplicateAlbumcategory: `This category is already added`,
+    albumcategoryAdd: `Category added successfully`,
+    albumcategoryList: `Category list fetched successfully`,
 }

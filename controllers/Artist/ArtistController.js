@@ -2003,3 +2003,301 @@ module.exports.deletePodcast = (req, res) => {
         }
     })()
 }
+
+
+
+/*
+|------------------------------------------------ 
+| API name          :  addPodcastCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Add Podcast Category
+| Request URL       :  BASE_URL/admin/poscast-category-add
+| Request method    :  POST
+| Author            :  Abhisek Paul
+|------------------------------------------------
+*/
+module.exports.addPodcastCategory = (req, res) => {
+    (async() => {
+        let purpose = "Add Podcast Category";
+        try {
+            let body = req.body;
+            let genreCount = await artistRepositories.countPodcastCategory({ name: body.name });
+
+            if (genreCount > 0) {
+                return res.status(409).send({
+                    status: 409,
+                    msg: responseMessages.duplicatePodcastcategory,
+                    data: {},
+                    purpose: purpose
+                })
+            } else {
+                let createData = {
+                    name: body.name,
+                }
+
+                let podcastCatDet = await artistRepositories.addPodcastCategory(createData);
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.podcastcategoryAdd,
+                    data: podcastCatDet,
+                    purpose: purpose
+                })
+            }
+        } catch (err) {
+            console.log("Add Podcast Category ERROR : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+/*
+|------------------------------------------------ 
+| API name          :  listPodcastCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Fetch Podcast Category List
+| Request URL       :  BASE_URL/admin/poscast-category-list
+| Request method    :  GET
+| Author            :  Abhisek Paul
+|------------------------------------------------
+*/
+module.exports.listPodcastCategory = (req, res) => {
+    (async() => {
+        let purpose = "List Podcast Category";
+        try {
+            let queryParam = req.query;
+            let where = {};
+            let data = {};
+            let page = queryParam.page ? parseInt(queryParam.page) : 1;
+            data.limit = 20;
+            data.offset = data.limit ? data.limit * (page - 1) : null;
+
+            if (queryParam.search) {
+                where.name = { $like: `%${queryParam.search}%` };
+            }
+
+            let podcastCategoryList = await artistRepositories.listPodcastCategory(where, data);
+            let dataResp = {
+                podcast_category_list: podcastCategoryList.rows,
+                total_count: podcastCategoryList.count.length
+            }
+            return res.status(200).send({
+                status: 200,
+                msg: responseMessages.podcastcategoryList,
+                data: dataResp,
+                purpose: purpose
+            })
+        } catch (err) {
+            console.log("List Podcast Category ERROR : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+/*
+|------------------------------------------------ 
+| API name          :  deletePodcastCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Delete Podcast Category
+| Request URL       :  BASE_URL/admin/delete-podcast-category/<< Category ID >>
+| Request method    :  DELETE
+| Author            :  Abhisek Paul
+|------------------------------------------------
+*/
+module.exports.deletePodcastCategory = (req, res) => {
+    (async() => {
+        let purpose = "Delete Podcast Category";
+        try {
+            let genreID = req.params.id;
+
+            let genreCount = await artistRepositories.countPodcastCategory({ id: genreID });
+
+            if (genreCount > 0) {
+                await artistRepositories.deletePodcastCategory({ id: genreID })
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.podcastCategoryDelete,
+                    data: {},
+                    purpose: purpose
+                })
+
+            } else {
+                return res.status(404).send({
+                    status: 404,
+                    msg: responseMessages.podcastNotFound,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+        } catch (err) {
+            console.log("Delete Podcast Category ERROR : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+
+
+
+
+/*
+|------------------------------------------------ 
+| API name          :  addAlbumCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Add Podcast Category
+| Request URL       :  BASE_URL/admin/album-category-add
+| Request method    :  POST
+| Author            :  Abhisek Paul
+|------------------------------------------------
+*/
+module.exports.addAlbumCategory = (req, res) => {
+    (async() => {
+        let purpose = "Add Album Category";
+        try {
+            let body = req.body;
+            let genreCount = await artistRepositories.countAlbumCategory({ name: body.name });
+
+            if (genreCount > 0) {
+                return res.status(409).send({
+                    status: 409,
+                    msg: responseMessages.duplicateAlbumcategory,
+                    data: {},
+                    purpose: purpose
+                })
+            } else {
+                let createData = {
+                    name: body.name,
+                }
+
+                let podcastCatDet = await artistRepositories.addAlbumCategory(createData);
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.albumcategoryAdd,
+                    data: podcastCatDet,
+                    purpose: purpose
+                })
+            }
+        } catch (err) {
+            console.log("Add Album Category ERROR : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+/*
+|------------------------------------------------ 
+| API name          :  listAlbumCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Fetch Podcast Category List
+| Request URL       :  BASE_URL/admin/poscast-category-list
+| Request method    :  GET
+| Author            :  Abhisek Paul
+|------------------------------------------------
+*/
+module.exports.listAlbumCategory = (req, res) => {
+    (async() => {
+        let purpose = "List Podcast Category";
+        try {
+            let queryParam = req.query;
+            let where = {};
+            let data = {};
+            let page = queryParam.page ? parseInt(queryParam.page) : 1;
+            data.limit = 20;
+            data.offset = data.limit ? data.limit * (page - 1) : null;
+
+            if (queryParam.search) {
+                where.name = { $like: `%${queryParam.search}%` };
+            }
+
+            let albumCategoryList = await artistRepositories.listAlbumCategory(where, data);
+            let dataResp = {
+                album_category_list: albumCategoryList.rows,
+                total_count: albumCategoryList.count.length
+            }
+            return res.status(200).send({
+                status: 200,
+                msg: responseMessages.albumcategoryList,
+                data: dataResp,
+                purpose: purpose
+            })
+        } catch (err) {
+            console.log("List Album Category ERROR : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+/*
+|------------------------------------------------ 
+| API name          :  deleteAlbumCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Delete Podcast Category
+| Request URL       :  BASE_URL/admin/delete-podcast-category/<< Category ID >>
+| Request method    :  DELETE
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.deleteAlbumCategory = (req, res) => {
+    (async() => {
+        let purpose = "Delete Podcast Category";
+        try {
+            let genreID = req.params.id;
+
+            let genreCount = await artistRepositories.countAlbumCategory({ id: genreID });
+
+            if (genreCount > 0) {
+                await artistRepositories.deleteAlbumCategory({ id: genreID })
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.podcastCategoryDelete,
+                    data: {},
+                    purpose: purpose
+                })
+
+            } else {
+                return res.status(404).send({
+                    status: 404,
+                    msg: responseMessages.podcastNotFound,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+        } catch (err) {
+            console.log("Delete Album Category ERROR : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}

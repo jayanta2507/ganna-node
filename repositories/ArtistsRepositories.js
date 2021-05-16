@@ -8,6 +8,8 @@ const AlbumsModel = require('../models/albums')(sequelize, DataTypes);
 const FavouritesModel = require('../models/favourites')(sequelize, DataTypes);
 const FollowedArtistsModel = require('../models/followed_artists')(sequelize, DataTypes);
 const ArtistDetailsModel = require('../models/artist_details')(sequelize, DataTypes);
+const PodcastCategoryModel = require('../models/podcast_categories')(sequelize, DataTypes);
+const AlbumCategoryModel  = require('../models/album_categories')(sequelize, DataTypes);
 const commonService = require('../helpers/commonFunctions');
 const _ = require('lodash');
 
@@ -368,4 +370,129 @@ module.exports.followedArtistsList = (where) => {
 }
 
 
+// Count Podcast Category
+module.exports.countPodcastCategory = (whereData) => {
+    return new Promise((resolve, reject) => {
+        PodcastCategoryModel.count({
+            where: whereData
+        }).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
 
+// Add Podcast Category
+module.exports.addPodcastCategory = (data) => {
+    return new Promise((resolve, reject) => {
+        PodcastCategoryModel.create(data).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
+
+// List Podcast Category
+module.exports.listPodcastCategory = (whereData, data) => {
+    return new Promise((resolve, reject) => {
+        PodcastCategoryModel.findAndCountAll({
+            where: whereData,
+            limit: data.limit,
+            offset: data.offset,
+            group: ['id'],
+            order: [
+                ['id', 'DESC']
+            ]
+        }).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
+
+// Delete Podcast Category
+module.exports.deletePodcastCategory = (where, t = null) => {
+    return new Promise((resolve, reject) => {
+        let options = {
+                where: where
+            }
+            //if trunsaction exist
+        if (t != null) options.transaction = t;
+        PodcastCategoryModel.destroy(options).then((result) => {
+            resolve(result)
+        }).catch((err) => {
+            reject(err);
+        })
+    })
+}
+
+
+
+
+// Count Podcast Category
+module.exports.countAlbumCategory = (whereData) => {
+    return new Promise((resolve, reject) => {
+        AlbumCategoryModel.count({
+            where: whereData
+        }).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
+
+// Add Podcast Category
+module.exports.addAlbumCategory = (data) => {
+    return new Promise((resolve, reject) => {
+        AlbumCategoryModel.create(data).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
+
+// List Podcast Category
+module.exports.listAlbumCategory = (whereData, data) => {
+    return new Promise((resolve, reject) => {
+        AlbumCategoryModel.findAndCountAll({
+            where: whereData,
+            limit: data.limit,
+            offset: data.offset,
+            group: ['id'],
+            order: [
+                ['id', 'DESC']
+            ]
+        }).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
+
+// Delete Podcast Category
+module.exports.deleteAlbumCategory = (where, t = null) => {
+    return new Promise((resolve, reject) => {
+        let options = {
+                where: where
+            }
+            //if trunsaction exist
+        if (t != null) options.transaction = t;
+        AlbumCategoryModel.destroy(options).then((result) => {
+            resolve(result)
+        }).catch((err) => {
+            reject(err);
+        })
+    })
+}
