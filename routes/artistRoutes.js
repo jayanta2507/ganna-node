@@ -126,6 +126,45 @@ var storagePodcastCover = multer.diskStorage({
     }
 })
 
+
+// SET STORAGE FOR ALBUM CATEGORY COVER IMAGE
+var storageAlbumCategoryCover = multer.diskStorage({
+    destination: function(req, file, cb) {
+        const path = 'uploads/album_category_cover';
+        fs.mkdirSync(path, { recursive: true });
+        cb(null, path);
+    },
+    filename: function(req, file, cb) {
+        cb(null, 'album_category_cover_' + Date.now() + path.extname(file.originalname))
+    }
+})
+
+// SET STORAGE FOR SONG CATEGORY COVER IMAGE
+var storageSongCategoryCover = multer.diskStorage({
+    destination: function(req, file, cb) {
+        const path = 'uploads/song_category_cover';
+        fs.mkdirSync(path, { recursive: true });
+        cb(null, path);
+    },
+    filename: function(req, file, cb) {
+        cb(null, 'song_category_cover_' + Date.now() + path.extname(file.originalname))
+    }
+})
+
+// SET STORAGE FOR PODCAST CATEGORY COVER IMAGE
+var storagePodcastCategoryCover = multer.diskStorage({
+    destination: function(req, file, cb) {
+        const path = 'uploads/podcast_category_cover';
+        fs.mkdirSync(path, { recursive: true });
+        cb(null, path);
+    },
+    filename: function(req, file, cb) {
+        cb(null, 'podcast_category_cover_' + Date.now() + path.extname(file.originalname))
+    }
+})
+
+
+
 var uploadProfilePicture = multer({ storage: storagePicture });
 var uploadGovtIDFront = multer({ storage: storagePictureGovtIDFront });
 var uploadGovtIDBack = multer({ storage: storagePictureGovtIDBack });
@@ -135,6 +174,10 @@ var uploadSong = multer({ storage: storageSong });
 var uploadSongCover = multer({ storage: storageSongCover });
 var uploadPodcast = multer({ storage: storagePodcast });
 var uploadPodcastCover = multer({ storage: storagePodcastCover });
+
+var uploadAlbumCategoruCover = multer({ storage: storageAlbumCategoryCover });
+var uploadSongCategoruCover = multer({ storage: storageSongCategoryCover });
+var uploadPodcastCategoruCover = multer({ storage: storagePodcastCategoryCover });
 
 router.post('/register', validateRequest.validate(artistValidationSchema.userRegisterSchema, 'body'), artistController.registerArtist); // User Registration Route
 router.post('/login', validateRequest.validate(artistValidationSchema.loginSchema, 'body'), artistController.artistLogin); // System Login Route
@@ -178,10 +221,26 @@ router.delete('/delete-podcast/:id', authenticationMiddleware.authenticateArtist
 router.post('/podcast-category-add', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addPodcastCategorySchema, 'body'), artistController.addPodcastCategory); // Add Podcast Category
 router.get('/podcast-category-list', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.listPodcastcategorySchema, 'query'), artistController.listPodcastCategory); // List Podcast Category
 router.delete('/delete-podcast-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deletePodcastCategory); // Delete Podcast Category
+router.post('/upload-album-category-cover-image', authenticationMiddleware.authenticateArtistRequestAPI, uploadPodcastCategoruCover.single('file'), artistController.uploadPodcastCategoryCover); // Upload Album Category Cover Image
 
 
-router.post('/album-category-add', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addAlbumCategorySchema, 'body'), artistController.addAlbumCategory); // Add Podcast Category
-router.get('/album-category-list', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.listAlbumcategorySchema, 'query'), artistController.listAlbumCategory); // List Podcast Category
-router.delete('/delete-album-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deleteAlbumCategory); // Delete Podcast Category
+router.post('/album-category-add', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addAlbumCategorySchema, 'body'), artistController.addAlbumCategory); // Add Album Category
+router.get('/album-category-list', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.listAlbumcategorySchema, 'query'), artistController.listAlbumCategory); // List Album Category
+router.delete('/delete-album-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deleteAlbumCategory); // Delete Album Category
+router.post('/upload-album-category-cover-image', authenticationMiddleware.authenticateArtistRequestAPI, uploadAlbumCategoruCover.single('file'), artistController.uploadAlbumCategoryCover); // Upload Album Category Cover Image
+
+
+router.post('/song-category-add', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addSongCategorySchema, 'body'), artistController.addSongCategory); // Add Song Category
+router.get('/song-category-list', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.listSongcategorySchema, 'query'), artistController.listAlbumCategory); // List Song Category
+router.delete('/delete-song-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deleteSongCategory); // Delete Song Category
+router.post('/upload-song-category-cover-image', authenticationMiddleware.authenticateArtistRequestAPI, uploadSongCategoruCover.single('file'), artistController.uploadSongCategoryCover); // Upload Song Category Cover Image
+
 
 module.exports = router;
+
+
+
+
+
+
+

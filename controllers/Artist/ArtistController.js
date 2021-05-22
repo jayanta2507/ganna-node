@@ -2033,6 +2033,7 @@ module.exports.addPodcastCategory = (req, res) => {
             } else {
                 let createData = {
                     name: body.name,
+                    details: body.details
                 }
 
                 let podcastCatDet = await artistRepositories.addPodcastCategory(createData);
@@ -2153,6 +2154,41 @@ module.exports.deletePodcastCategory = (req, res) => {
 }
 
 
+/*
+|------------------------------------------------ 
+| API name          :  uploadPodcastCategoryCover
+| Response          :  Respective response message in JSON format
+| Logic             :  Upload Album Category Cover Image
+| Request URL       :  BASE_URL/artist/upload-album-category-cover-image
+| Request method    :  POST
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.uploadPodcastCategoryCover = (req, res) => {
+    (async() => {
+        let purpose = "Upload Podcast Category Cover Image";
+        try {
+            let filePath = `${global.constants.podcast_category_cover_url}/${req.file.filename}`;
+            return res.status(200).send({
+                status: 200,
+                msg: responseMessages.songCoverUpload,
+                data: {
+                    filePath: filePath
+                },
+                purpose: purpose
+            })
+        } catch (err) {
+            console.log("Upload Podcast Category Cover Image : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
 
 
 
@@ -2160,10 +2196,10 @@ module.exports.deletePodcastCategory = (req, res) => {
 |------------------------------------------------ 
 | API name          :  addAlbumCategory
 | Response          :  Respective response message in JSON format
-| Logic             :  Add Podcast Category
+| Logic             :  Add Album Category
 | Request URL       :  BASE_URL/admin/album-category-add
 | Request method    :  POST
-| Author            :  Abhisek Paul
+| Author            :  Jayanta Mondal
 |------------------------------------------------
 */
 module.exports.addAlbumCategory = (req, res) => {
@@ -2183,6 +2219,7 @@ module.exports.addAlbumCategory = (req, res) => {
             } else {
                 let createData = {
                     name: body.name,
+                    details: body.details
                 }
 
                 let podcastCatDet = await artistRepositories.addAlbumCategory(createData);
@@ -2210,10 +2247,10 @@ module.exports.addAlbumCategory = (req, res) => {
 |------------------------------------------------ 
 | API name          :  listAlbumCategory
 | Response          :  Respective response message in JSON format
-| Logic             :  Fetch Podcast Category List
-| Request URL       :  BASE_URL/admin/poscast-category-list
+| Logic             :  Fetch Album Category List
+| Request URL       :  BASE_URL/admin/album-category-list
 | Request method    :  GET
-| Author            :  Abhisek Paul
+| Author            :  Jayanta Mondal
 |------------------------------------------------
 */
 module.exports.listAlbumCategory = (req, res) => {
@@ -2258,8 +2295,8 @@ module.exports.listAlbumCategory = (req, res) => {
 |------------------------------------------------ 
 | API name          :  deleteAlbumCategory
 | Response          :  Respective response message in JSON format
-| Logic             :  Delete Podcast Category
-| Request URL       :  BASE_URL/admin/delete-podcast-category/<< Category ID >>
+| Logic             :  Delete Album Category
+| Request URL       :  BASE_URL/admin/delete-album-category/<< Category ID >>
 | Request method    :  DELETE
 | Author            :  Jayanta Mondal
 |------------------------------------------------
@@ -2292,6 +2329,227 @@ module.exports.deleteAlbumCategory = (req, res) => {
             }
         } catch (err) {
             console.log("Delete Album Category ERROR : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+
+/*
+|------------------------------------------------ 
+| API name          :  uploadAlbumCategoryCover
+| Response          :  Respective response message in JSON format
+| Logic             :  Upload Album Category Cover Image
+| Request URL       :  BASE_URL/artist/upload-album-category-cover-image
+| Request method    :  POST
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.uploadAlbumCategoryCover = (req, res) => {
+    (async() => {
+        let purpose = "Upload Album Category Cover Image";
+        try {
+            let filePath = `${global.constants.album_category_cover_url}/${req.file.filename}`;
+            return res.status(200).send({
+                status: 200,
+                msg: responseMessages.songCoverUpload,
+                data: {
+                    filePath: filePath
+                },
+                purpose: purpose
+            })
+        } catch (err) {
+            console.log("Upload Album Category Cover Image : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+
+
+/*
+|------------------------------------------------ 
+| API name          :  addSongCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Add Song Category
+| Request URL       :  BASE_URL/admin/song-category-add
+| Request method    :  POST
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.addSongCategory = (req, res) => {
+    (async() => {
+        let purpose = "Add Song Category";
+        try {
+            let body = req.body;
+            let genreCount = await artistRepositories.countSongCategory({ name: body.name });
+
+            if (genreCount > 0) {
+                return res.status(409).send({
+                    status: 409,
+                    msg: responseMessages.duplicateAlbumcategory,
+                    data: {},
+                    purpose: purpose
+                })
+            } else {
+                let createData = {
+                    name: body.name,
+                    details: body.details
+                }
+
+                let songCateAdd = await artistRepositories.addSongCategory(createData);
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.albumcategoryAdd,
+                    data: songCateAdd,
+                    purpose: purpose
+                })
+            }
+        } catch (err) {
+            console.log("Add Album Category ERROR : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+/*
+|------------------------------------------------ 
+| API name          :  listAlbumCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Fetch Song Category List
+| Request URL       :  BASE_URL/admin/song-category-list
+| Request method    :  GET
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.listAlbumCategory = (req, res) => {
+    (async() => {
+        let purpose = "List Podcast Category";
+        try {
+            let queryParam = req.query;
+            let where = {};
+            let data = {};
+            let page = queryParam.page ? parseInt(queryParam.page) : 1;
+            data.limit = 20;
+            data.offset = data.limit ? data.limit * (page - 1) : null;
+
+            if (queryParam.search) {
+                where.name = { $like: `%${queryParam.search}%` };
+            }
+
+            let songCategoryList = await artistRepositories.listSongCategory(where, data);
+            let dataResp = {
+                album_category_list: songCategoryList.rows,
+                total_count: songCategoryList.count.length
+            }
+            return res.status(200).send({
+                status: 200,
+                msg: responseMessages.albumcategoryList,
+                data: dataResp,
+                purpose: purpose
+            })
+        } catch (err) {
+            console.log("List Album Category ERROR : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+/*
+|------------------------------------------------ 
+| API name          :  deleteSongCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Delete Song Category
+| Request URL       :  BASE_URL/admin/delete-song-category/<< Category ID >>
+| Request method    :  DELETE
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.deleteSongCategory = (req, res) => {
+    (async() => {
+        let purpose = "Delete Song Category";
+        try {
+            let genreID = req.params.id;
+
+            let genreCount = await artistRepositories.countSongCategory({ id: genreID });
+
+            if (genreCount > 0) {
+                await artistRepositories.deleteSongCategory({ id: genreID })
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.podcastCategoryDelete,
+                    data: {},
+                    purpose: purpose
+                })
+
+            } else {
+                return res.status(404).send({
+                    status: 404,
+                    msg: responseMessages.podcastNotFound,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+        } catch (err) {
+            console.log("Delete Song Category ERROR : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+
+/*
+|------------------------------------------------ 
+| API name          :  uploadSongCategoryCover
+| Response          :  Respective response message in JSON format
+| Logic             :  Upload Album Category Cover Image
+| Request URL       :  BASE_URL/artist/upload-album-category-cover-image
+| Request method    :  POST
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.uploadSongCategoryCover = (req, res) => {
+    (async() => {
+        let purpose = "Upload Song Category Cover Image";
+        try {
+            let filePath = `${global.constants.album_category_cover_url}/${req.file.filename}`;
+            return res.status(200).send({
+                status: 200,
+                msg: responseMessages.songCoverUpload,
+                data: {
+                    filePath: filePath
+                },
+                purpose: purpose
+            })
+        } catch (err) {
+            console.log("Upload Song Category Cover Image : ", err);
             return res.status(500).send({
                 status: 500,
                 msg: responseMessages.serverError,

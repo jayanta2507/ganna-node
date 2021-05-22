@@ -10,6 +10,7 @@ const FollowedArtistsModel = require('../models/followed_artists')(sequelize, Da
 const ArtistDetailsModel = require('../models/artist_details')(sequelize, DataTypes);
 const PodcastCategoryModel = require('../models/podcast_categories')(sequelize, DataTypes);
 const AlbumCategoryModel  = require('../models/album_categories')(sequelize, DataTypes);
+const SongCategoryModel  = require('../models/song_categories')(sequelize, DataTypes);
 const commonService = require('../helpers/commonFunctions');
 const _ = require('lodash');
 
@@ -435,7 +436,7 @@ module.exports.deletePodcastCategory = (where, t = null) => {
 
 
 
-// Count Podcast Category
+// Count Album Category
 module.exports.countAlbumCategory = (whereData) => {
     return new Promise((resolve, reject) => {
         AlbumCategoryModel.count({
@@ -449,7 +450,7 @@ module.exports.countAlbumCategory = (whereData) => {
     })
 }
 
-// Add Podcast Category
+// Add Album Category
 module.exports.addAlbumCategory = (data) => {
     return new Promise((resolve, reject) => {
         AlbumCategoryModel.create(data).then(result => {
@@ -461,7 +462,7 @@ module.exports.addAlbumCategory = (data) => {
     })
 }
 
-// List Podcast Category
+// List Album Category
 module.exports.listAlbumCategory = (whereData, data) => {
     return new Promise((resolve, reject) => {
         AlbumCategoryModel.findAndCountAll({
@@ -481,7 +482,7 @@ module.exports.listAlbumCategory = (whereData, data) => {
     })
 }
 
-// Delete Podcast Category
+// Delete Album Category
 module.exports.deleteAlbumCategory = (where, t = null) => {
     return new Promise((resolve, reject) => {
         let options = {
@@ -490,6 +491,69 @@ module.exports.deleteAlbumCategory = (where, t = null) => {
             //if trunsaction exist
         if (t != null) options.transaction = t;
         AlbumCategoryModel.destroy(options).then((result) => {
+            resolve(result)
+        }).catch((err) => {
+            reject(err);
+        })
+    })
+}
+
+
+// Count Song Category
+module.exports.countSongCategory = (whereData) => {
+    return new Promise((resolve, reject) => {
+        SongCategoryModel.count({
+            where: whereData
+        }).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
+
+// Add Song Category
+module.exports.addSongCategory = (data) => {
+    return new Promise((resolve, reject) => {
+        SongCategoryModel.create(data).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
+
+// List Song Category
+module.exports.listSongCategory = (whereData, data) => {
+    return new Promise((resolve, reject) => {
+        SongCategoryModel.findAndCountAll({
+            where: whereData,
+            limit: data.limit,
+            offset: data.offset,
+            group: ['id'],
+            order: [
+                ['id', 'DESC']
+            ]
+        }).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
+
+// Delete Song Category
+module.exports.deleteSongCategory = (where, t = null) => {
+    return new Promise((resolve, reject) => {
+        let options = {
+                where: where
+            }
+            //if trunsaction exist
+        if (t != null) options.transaction = t;
+        SongCategoryModel.destroy(options).then((result) => {
             resolve(result)
         }).catch((err) => {
             reject(err);

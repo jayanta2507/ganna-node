@@ -15,6 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     };
     album_categories.init({
         name: DataTypes.STRING,
+        cover_image: DataTypes.STRING,
+        details: DataTypes.TEXT,
         is_active: DataTypes.INTEGER
     }, {
         sequelize,
