@@ -2404,7 +2404,8 @@ module.exports.addSongCategory = (req, res) => {
             } else {
                 let createData = {
                     name: body.name,
-                    details: body.details
+                    details: body.details,
+                    cover_image: body.cover_picture
                 }
 
                 let songCateAdd = await artistRepositories.addSongCategory(createData);
@@ -2539,7 +2540,7 @@ module.exports.uploadSongCategoryCover = (req, res) => {
     (async() => {
         let purpose = "Upload Song Category Cover Image";
         try {
-            let filePath = `${global.constants.album_category_cover_url}/${req.file.filename}`;
+            let filePath = `${global.constants.song_category_cover_url}/${req.file.filename}`;
             return res.status(200).send({
                 status: 200,
                 msg: responseMessages.songCoverUpload,

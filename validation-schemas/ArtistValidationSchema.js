@@ -144,6 +144,7 @@ module.exports.podcastsList = Joi.object().keys({
 module.exports.addPodcastCategorySchema = Joi.object().keys({
     name: Joi.string().required(),
     details: Joi.string().required(),
+    cover_picture: Joi.string().required()
 });
 // List Podcast Category Schema
 module.exports.listPodcastcategorySchema = Joi.object().keys({
@@ -155,6 +156,7 @@ module.exports.listPodcastcategorySchema = Joi.object().keys({
 module.exports.addAlbumCategorySchema = Joi.object().keys({
     name: Joi.string().required(),
     details: Joi.string().required(),
+    cover_picture: Joi.string().required()
 });
 // List Album Category Schema
 module.exports.listAlbumcategorySchema = Joi.object().keys({
@@ -166,6 +168,7 @@ module.exports.listAlbumcategorySchema = Joi.object().keys({
 module.exports.addSongCategorySchema = Joi.object().keys({
     name: Joi.string().required(),
     details: Joi.string().required(),
+    cover_picture: Joi.string().required()
 });
 // List Song Category Schema
 module.exports.listSongcategorySchema = Joi.object().keys({
