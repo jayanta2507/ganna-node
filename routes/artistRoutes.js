@@ -184,4 +184,4 @@ router.post('/album-category-add', authenticationMiddleware.authenticateArtistRe
 router.get('/album-category-list', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.listAlbumcategorySchema, 'query'), artistController.listAlbumCategory); // List Podcast Category
 router.delete('/delete-album-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deleteAlbumCategory); // Delete Podcast Category
 
-module.exports = router;
+module.exports = router; 
