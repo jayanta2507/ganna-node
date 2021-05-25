@@ -2033,7 +2033,8 @@ module.exports.addPodcastCategory = (req, res) => {
             } else {
                 let createData = {
                     name: body.name,
-                    details: body.details
+                    details: body.details,
+                    cover_image: body.cover_picture
                 }
 
                 let podcastCatDet = await artistRepositories.addPodcastCategory(createData);
@@ -2171,7 +2172,7 @@ module.exports.uploadPodcastCategoryCover = (req, res) => {
             let filePath = `${global.constants.podcast_category_cover_url}/${req.file.filename}`;
             return res.status(200).send({
                 status: 200,
-                msg: responseMessages.songCoverUpload,
+                msg: responseMessages.podcastCoverUpload,
                 data: {
                     filePath: filePath
                 },
@@ -2219,7 +2220,8 @@ module.exports.addAlbumCategory = (req, res) => {
             } else {
                 let createData = {
                     name: body.name,
-                    details: body.details
+                    details: body.details,
+                    cover_image: body.cover_picture
                 }
 
                 let podcastCatDet = await artistRepositories.addAlbumCategory(createData);
@@ -2357,7 +2359,7 @@ module.exports.uploadAlbumCategoryCover = (req, res) => {
             let filePath = `${global.constants.album_category_cover_url}/${req.file.filename}`;
             return res.status(200).send({
                 status: 200,
-                msg: responseMessages.songCoverUpload,
+                msg: responseMessages.albumCoverUpload,
                 data: {
                     filePath: filePath
                 },
@@ -2439,7 +2441,7 @@ module.exports.addSongCategory = (req, res) => {
 | Author            :  Jayanta Mondal
 |------------------------------------------------
 */
-module.exports.listAlbumCategory = (req, res) => {
+module.exports.listSongCategory = (req, res) => {
     (async() => {
         let purpose = "List Podcast Category";
         try {
@@ -2461,7 +2463,7 @@ module.exports.listAlbumCategory = (req, res) => {
             }
             return res.status(200).send({
                 status: 200,
-                msg: responseMessages.albumcategoryList,
+                msg: responseMessages.songcategoryList,
                 data: dataResp,
                 purpose: purpose
             })
