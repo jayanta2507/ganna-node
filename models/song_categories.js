@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     };
     song_categories.init({
+        artist_id: DataTypes.INTEGER,
         name: DataTypes.STRING,
         cover_image: DataTypes.STRING,
         details: DataTypes.TEXT,

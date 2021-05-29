@@ -2394,6 +2394,7 @@ module.exports.addSongCategory = (req, res) => {
         let purpose = "Add Song Category";
         try {
             let body = req.body;
+            let artistID = req.headers.userID;
             let genreCount = await artistRepositories.countSongCategory({ name: body.name });
 
             if (genreCount > 0) {
@@ -2405,6 +2406,7 @@ module.exports.addSongCategory = (req, res) => {
                 })
             } else {
                 let createData = {
+                    artist_id: artistID,
                     name: body.name,
                     details: body.details,
                     cover_image: body.cover_picture
@@ -2553,6 +2555,58 @@ module.exports.uploadSongCategoryCover = (req, res) => {
             })
         } catch (err) {
             console.log("Upload Song Category Cover Image : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+
+/*
+|------------------------------------------------ 
+| API name          :  songCategoryDetails
+| Response          :  Respective response message in JSON format
+| Logic             :  Create New Podcast
+| Request URL       :  BASE_URL/artist/podcast-details/<< Podcast ID >>
+| Request method    :  GET
+| Author            :  Suman Rana
+|------------------------------------------------
+*/
+module.exports.songCategoryDetails = (req, res) => {
+    (async() => {
+        let purpose = "Song Category Details"
+        try {
+            let artistID = req.headers.userID;
+            let songCatID = req.params.id;
+            
+            let songCatCount = await artistRepositories.countSongCategory({ id: songCatID, artist_id: artistID });
+
+
+            if(songCatCount > 0) {
+                let songCategoryDetails = await artistRepositories.songCategoryDetails({ id: songCatID });
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.songCategoryDetails,
+                    data: songCategoryDetails,
+                    purpose: purpose
+                })
+            }
+            else {
+                return res.status(404).send({
+                    status: 404,
+                    msg: responseMessages.podcastNotFoundNew,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+        }
+        catch(err) {
+            console.log("Podcast Details Error : ", err);
             return res.status(500).send({
                 status: 500,
                 msg: responseMessages.serverError,
