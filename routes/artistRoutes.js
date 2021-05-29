@@ -234,7 +234,7 @@ router.post('/song-category-add', authenticationMiddleware.authenticateArtistReq
 router.get('/song-category-list', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.listSongcategorySchema, 'query'), artistController.listSongCategory); // List Song Category
 router.delete('/delete-song-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deleteSongCategory); // Delete Song Category
 router.post('/upload-song-category-cover-image', authenticationMiddleware.authenticateArtistRequestAPI, uploadSongCategoruCover.single('file'), artistController.uploadSongCategoryCover); // Upload Song Category Cover Image
-
+router.get('/song-category-details/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.songCategoryDetails) // Podcast Details
 
 module.exports = router; 
 

@@ -560,3 +560,18 @@ module.exports.deleteSongCategory = (where, t = null) => {
         })
     })
 }
+
+
+// Podcast Details
+module.exports.songCategoryDetails = (where) => {
+    return new Promise((resolve, reject) => {
+        SongCategoryModel.findOne({
+            where: where
+        }).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
