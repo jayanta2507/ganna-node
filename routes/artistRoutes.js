@@ -221,20 +221,23 @@ router.delete('/delete-podcast/:id', authenticationMiddleware.authenticateArtist
 router.post('/podcast-category-add', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addPodcastCategorySchema, 'body'), artistController.addPodcastCategory); // Add Podcast Category
 router.get('/podcast-category-list', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.listPodcastcategorySchema, 'query'), artistController.listPodcastCategory); // List Podcast Category
 router.delete('/delete-podcast-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deletePodcastCategory); // Delete Podcast Category
-router.post('/upload-podcast-category-cover-image', authenticationMiddleware.authenticateArtistRequestAPI, uploadPodcastCategoruCover.single('file'), artistController.uploadPodcastCategoryCover); // Upload Album Category Cover Image
-
+router.post('/upload-podcast-category-cover-image', authenticationMiddleware.authenticateArtistRequestAPI, uploadPodcastCategoruCover.single('file'), artistController.uploadPodcastCategoryCover); // Upload Podcast Category Cover Image
+router.get('/podcast-category-details/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.podcastCategoryDetails) // Podcast Category Details
+router.put('/update-podcast-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addPodcastCategorySchema, 'body'), artistController.updatePodcastCategory) // Update Podcast Category
 
 router.post('/album-category-add', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addAlbumCategorySchema, 'body'), artistController.addAlbumCategory); // Add Album Category
 router.get('/album-category-list', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.listAlbumcategorySchema, 'query'), artistController.listAlbumCategory); // List Album Category
 router.delete('/delete-album-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deleteAlbumCategory); // Delete Album Category
 router.post('/upload-album-category-cover-image', authenticationMiddleware.authenticateArtistRequestAPI, uploadAlbumCategoruCover.single('file'), artistController.uploadAlbumCategoryCover); // Upload Album Category Cover Image
-
+router.get('/album-category-details/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.albumCategoryDetails) // Album Category Details
+router.put('/update-album-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addAlbumCategorySchema, 'body'), artistController.updateAlbumCategory) // Update Album Category
 
 router.post('/song-category-add', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addSongCategorySchema, 'body'), artistController.addSongCategory); // Add Song Category
 router.get('/song-category-list', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.listSongcategorySchema, 'query'), artistController.listSongCategory); // List Song Category
 router.delete('/delete-song-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.deleteSongCategory); // Delete Song Category
 router.post('/upload-song-category-cover-image', authenticationMiddleware.authenticateArtistRequestAPI, uploadSongCategoruCover.single('file'), artistController.uploadSongCategoryCover); // Upload Song Category Cover Image
-router.get('/song-category-details/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.songCategoryDetails) // Podcast Details
+router.get('/song-category-details/:id', authenticationMiddleware.authenticateArtistRequestAPI, artistController.songCategoryDetails) // Song category Details
+router.put('/update-song-category/:id', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.addSongCategorySchema, 'body'), artistController.updateSongCategory) // Update Song Category
 
 module.exports = router; 
 

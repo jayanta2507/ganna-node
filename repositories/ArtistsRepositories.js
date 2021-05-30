@@ -434,6 +434,37 @@ module.exports.deletePodcastCategory = (where, t = null) => {
 }
 
 
+// Podcast Category Details
+module.exports.podcastCategoryDetails = (where) => {
+    return new Promise((resolve, reject) => {
+        PodcastCategoryModel.findOne({
+            where: where
+        }).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
+
+// Update Podcast Category Details
+module.exports.podcastCatUpdate = (where, data, t = null) => {
+    return new Promise((resolve, reject) => {
+        let options = {
+            where: where
+        }
+            //if trunsaction exist
+        if (t != null) options.transaction = t;
+        PodcastCategoryModel.update(data, options).then((result) => {
+            resolve(result)
+        }).catch((err) => {
+            reject(err);
+        })
+    })
+}
+
+
 
 
 // Count Album Category
@@ -491,6 +522,37 @@ module.exports.deleteAlbumCategory = (where, t = null) => {
             //if trunsaction exist
         if (t != null) options.transaction = t;
         AlbumCategoryModel.destroy(options).then((result) => {
+            resolve(result)
+        }).catch((err) => {
+            reject(err);
+        })
+    })
+}
+
+
+// Album Category Details
+module.exports.albumCategoryDetails = (where) => {
+    return new Promise((resolve, reject) => {
+        AlbumCategoryModel.findOne({
+            where: where
+        }).then(result => {
+            result = JSON.parse(JSON.stringify(result).replace(/\:null/gi, "\:\"\""));
+            resolve(result);
+        }).catch((error) => {
+            reject(error);
+        })
+    })
+}
+
+// Update Category Details
+module.exports.albumCatUpdate = (where, data, t = null) => {
+    return new Promise((resolve, reject) => {
+        let options = {
+            where: where
+        }
+            //if trunsaction exist
+        if (t != null) options.transaction = t;
+        AlbumCategoryModel.update(data, options).then((result) => {
             resolve(result)
         }).catch((err) => {
             reject(err);
@@ -562,7 +624,7 @@ module.exports.deleteSongCategory = (where, t = null) => {
 }
 
 
-// Podcast Details
+// Song Category Details
 module.exports.songCategoryDetails = (where) => {
     return new Promise((resolve, reject) => {
         SongCategoryModel.findOne({
@@ -572,6 +634,24 @@ module.exports.songCategoryDetails = (where) => {
             resolve(result);
         }).catch((error) => {
             reject(error);
+        })
+    })
+}
+
+
+
+// Update
+module.exports.songCatUpdate = (where, data, t = null) => {
+    return new Promise((resolve, reject) => {
+        let options = {
+            where: where
+        }
+            //if trunsaction exist
+        if (t != null) options.transaction = t;
+        SongCategoryModel.update(data, options).then((result) => {
+            resolve(result)
+        }).catch((err) => {
+            reject(err);
         })
     })
 }

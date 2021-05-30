@@ -84,4 +84,5 @@ module.exports = {
     duplicateAlbumcategory: `This category is already added`,
     albumcategoryAdd: `Category added successfully`,
     albumcategoryList: `Category list fetched successfully`,
+    categoryUpdate: `Category updated successfully`,
 }
