@@ -2021,6 +2021,7 @@ module.exports.addPodcastCategory = (req, res) => {
         let purpose = "Add Podcast Category";
         try {
             let body = req.body;
+            let artistID     = req.headers.userID;
             let genreCount = await artistRepositories.countPodcastCategory({ name: body.name });
 
             if (genreCount > 0) {
@@ -2032,6 +2033,7 @@ module.exports.addPodcastCategory = (req, res) => {
                 })
             } else {
                 let createData = {
+                    artist_id: artistID,
                     name: body.name,
                     details: body.details,
                     cover_image: body.cover_picture
@@ -2190,6 +2192,120 @@ module.exports.uploadPodcastCategoryCover = (req, res) => {
     })()
 }
 
+/*
+|------------------------------------------------ 
+| API name          :  podcastCategoryDetails
+| Response          :  Respective response message in JSON format
+| Logic             :  Podcast Category Details
+| Request URL       :  BASE_URL/artist/podcast-category-details/<< albumCat ID >>
+| Request method    :  GET
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.podcastCategoryDetails = (req, res) => {
+    (async() => {
+        let purpose = "Podcast Category Details"
+        try {
+            let artistID = req.headers.userID;
+            let podcastCatID = req.params.id;
+            
+            let podcastCatCount = await artistRepositories.countPodcastCategory({ id: podcastCatID, artist_id: artistID });
+
+
+            if(podcastCatCount > 0) {
+                let podcastCategoryDetails = await artistRepositories.podcastCategoryDetails({ id: podcastCatID });
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.podcastCategoryDetails,
+                    data: podcastCategoryDetails,
+                    purpose: purpose
+                })
+            }
+            else {
+                return res.status(404).send({
+                    status: 404,
+                    msg: responseMessages.podcastNotFoundNew,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+        }
+        catch(err) {
+            console.log("Album Category Details Error : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+
+
+/*
+|------------------------------------------------ 
+| API name          :  updateAlbumCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Update Song
+| Request URL       :  BASE_URL/artist/update-album-category/<< Song ID >>
+| Request method    :  PUT
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.updatePodcastCategory = (req, res) => {
+    (async()=>{
+        let purpose = "Update Podcast Category"
+        try {
+            let artistID     = req.headers.userID;
+            let podcastCatID = req.params.id;
+            let body         = req.body;
+
+            let podcastCategoryDetails = await artistRepositories.podcastCategoryDetails({ id: podcastCatID, artist_id: artistID });
+
+            if(podcastCategoryDetails) {
+                await sequelize.transaction(async(t)=>{
+                    let updateData = {
+                        name: body.name,
+                        details: body.details,
+                        cover_image: body.cover_picture
+                    }
+
+                    await artistRepositories.podcastCatUpdate({ id: podcastCatID }, updateData, t);
+
+                })
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.categoryUpdate,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+            else {
+                return res.status(404).send({
+                    status: 404,
+                    msg: responseMessages.songNotFound,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+        }
+        catch(err) {
+            console.log("Update Error : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+
 
 
 
@@ -2208,6 +2324,7 @@ module.exports.addAlbumCategory = (req, res) => {
         let purpose = "Add Album Category";
         try {
             let body = req.body;
+            let artistID = req.headers.userID;
             let genreCount = await artistRepositories.countAlbumCategory({ name: body.name });
 
             if (genreCount > 0) {
@@ -2219,6 +2336,7 @@ module.exports.addAlbumCategory = (req, res) => {
                 })
             } else {
                 let createData = {
+                    artist_id: artistID,
                     name: body.name,
                     details: body.details,
                     cover_image: body.cover_picture
@@ -2367,6 +2485,120 @@ module.exports.uploadAlbumCategoryCover = (req, res) => {
             })
         } catch (err) {
             console.log("Upload Album Category Cover Image : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+
+/*
+|------------------------------------------------ 
+| API name          :  albumCategoryDetails
+| Response          :  Respective response message in JSON format
+| Logic             :  Create New Podcast
+| Request URL       :  BASE_URL/artist/song-category-details/<< albumCat ID >>
+| Request method    :  GET
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.albumCategoryDetails = (req, res) => {
+    (async() => {
+        let purpose = "Album Category Details"
+        try {
+            let artistID = req.headers.userID;
+            let albumCatID = req.params.id;
+            
+            let albumCatCount = await artistRepositories.countAlbumCategory({ id: albumCatID, artist_id: artistID });
+
+
+            if(albumCatCount > 0) {
+                let albumCategoryDetails = await artistRepositories.albumCategoryDetails({ id: albumCatID });
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.albumCategoryDetails,
+                    data: albumCategoryDetails,
+                    purpose: purpose
+                })
+            }
+            else {
+                return res.status(404).send({
+                    status: 404,
+                    msg: responseMessages.podcastNotFoundNew,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+        }
+        catch(err) {
+            console.log("Album Category Details Error : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+
+
+/*
+|------------------------------------------------ 
+| API name          :  updateAlbumCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Update Song
+| Request URL       :  BASE_URL/artist/update-album-category/<< Song ID >>
+| Request method    :  PUT
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.updateAlbumCategory = (req, res) => {
+    (async()=>{
+        let purpose = "Update Album Category"
+        try {
+            let artistID  = req.headers.userID;
+            let albumCatID = req.params.id;
+            let body      = req.body;
+
+            let albumCategoryDetails = await artistRepositories.albumCategoryDetails({ id: albumCatID, artist_id: artistID });
+
+            if(albumCategoryDetails) {
+                await sequelize.transaction(async(t)=>{
+                    let updateData = {
+                        name: body.name,
+                        details: body.details,
+                        cover_image: body.cover_picture
+                    }
+
+                    await artistRepositories.albumCatUpdate({ id: albumCatID }, updateData, t);
+
+                })
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.categoryUpdate,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+            else {
+                return res.status(404).send({
+                    status: 404,
+                    msg: responseMessages.songNotFound,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+        }
+        catch(err) {
+            console.log("Update Error : ", err);
             return res.status(500).send({
                 status: 500,
                 msg: responseMessages.serverError,
@@ -2607,6 +2839,68 @@ module.exports.songCategoryDetails = (req, res) => {
         }
         catch(err) {
             console.log("Podcast Details Error : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}
+
+
+
+/*
+|------------------------------------------------ 
+| API name          :  updateSongCategory
+| Response          :  Respective response message in JSON format
+| Logic             :  Update Song
+| Request URL       :  BASE_URL/artist/update-song-category/<< Song ID >>
+| Request method    :  PUT
+| Author            :  Jayanta Mondal
+|------------------------------------------------
+*/
+module.exports.updateSongCategory = (req, res) => {
+    (async()=>{
+        let purpose = "Update Song Category"
+        try {
+            let artistID  = req.headers.userID;
+            let songCatID = req.params.id;
+            let body      = req.body;
+
+            let songCategoryDetails = await artistRepositories.songCategoryDetails({ id: songCatID, artist_id: artistID });
+
+            if(songCategoryDetails) {
+                await sequelize.transaction(async(t)=>{
+                    let updateData = {
+                        name: body.name,
+                        details: body.details,
+                        cover_image: body.cover_picture
+                    }
+
+                    await artistRepositories.songCatUpdate({ id: songCatID }, updateData, t);
+
+                })
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.categoryUpdate,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+            else {
+                return res.status(404).send({
+                    status: 404,
+                    msg: responseMessages.songNotFound,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+        }
+        catch(err) {
+            console.log("Update Error : ", err);
             return res.status(500).send({
                 status: 500,
                 msg: responseMessages.serverError,

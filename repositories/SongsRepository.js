@@ -491,7 +491,7 @@ module.exports.update = (where, data, t = null) => {
     })
 }
 
-// Update
+// Delete
 module.exports.delete = (where, t = null) => {
     return new Promise((resolve, reject) => {
         let options = {
