@@ -175,3 +175,10 @@ module.exports.listSongcategorySchema = Joi.object().keys({
     page: Joi.number().min(1).required(),
     search: Joi.string().required().allow('', null),
 });
+
+// Add Song Category Schema
+module.exports.updateCategorySchema = Joi.object().keys({
+    name: Joi.string().required(),
+    details: Joi.string().required(),
+    cover_picture: Joi.string().required().allow('', null),
+});
