@@ -93,6 +93,7 @@ module.exports.artistDetailsStepFour = Joi.object().keys({
 // Album Create Schema
 module.exports.createAlbum = Joi.object().keys({
     name: Joi.string().required(),
+    album_category_id: Joi.string().required(),
 });
 
 // List Albums Schema
@@ -114,6 +115,7 @@ module.exports.createSong = Joi.object().keys({
     is_paid: Joi.number().valid(0,1).required(),
     genre_id: Joi.number().optional(),
     price: Joi.number().optional(),
+    song_category_id: Joi.string().required(),
 });
 
 // List Albums Schema

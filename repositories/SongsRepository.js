@@ -6,14 +6,14 @@ const GenresModel = require('../models/genres')(sequelize, DataTypes);
 const AlbumsModel = require('../models/albums')(sequelize, DataTypes);
 const FavouritesModel = require('../models/favourites')(sequelize, DataTypes);
 const CountryModel = require('../models/countries')(sequelize, DataTypes);
-
+const SongCategoryModel  = require('../models/song_categories')(sequelize, DataTypes);
 
 SongsModel.belongsTo(ArtistModel, { foreignKey: 'artist_id', as: 'artist_details' });
 SongsModel.belongsTo(GenresModel, { foreignKey: 'genre_id', as: 'genre_details' });
 SongsModel.belongsTo(AlbumsModel, { foreignKey: 'album_id', as: 'album_details' });
 SongsModel.hasMany(FavouritesModel, { foreignKey: 'file_id', as: 'is_favourite' });
 SongsModel.belongsTo(CountryModel, { foreignKey: 'country_id', as: 'country_details' });
-
+SongsModel.belongsTo(SongCategoryModel, { foreignKey: 'song_category_id', as: 'song_category_details' });
 // Find All
 module.exports.findAll = (whereData) => {
     return new Promise((resolve, reject) => {
@@ -558,6 +558,11 @@ module.exports.songDetails = (where) => {
                 {
                     model: CountryModel,
                     as: 'country_details',
+                },
+                {
+                    model: SongCategoryModel,
+                    as: 'song_category_details',
+                    attributes: ['id', 'name']
                 }
             ],
         }).then(result => {
@@ -594,6 +599,11 @@ module.exports.songsList = (where, data) => {
                 {
                     model: CountryModel,
                     as: 'country_details',
+                },
+                {
+                    model: SongCategoryModel,
+                    as: 'song_category_details',
+                    attributes: ['id', 'name']
                 }
             ],
             offset: data.offset,

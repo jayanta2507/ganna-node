@@ -974,6 +974,7 @@ module.exports.createAlbum = (req, res) => {
 
             let createData = {
                 name: body.name,
+                album_category_id: body.album_category_id,
                 cover_picture: filePath,
                 artist_id: artistID,
                 total_songs: 0,
@@ -1025,6 +1026,7 @@ module.exports.updateAlbum = (req, res) => {
             if(albumCount > 0) {
                 let updateData = {};
                 updateData.name = body.name;
+                updateData.album_category_id = body.album_category_id;
 
                 if(req.file) {
                     updateData.cover_picture = `${global.constants.album_cover_url}/${req.file.filename}`;
@@ -1331,6 +1333,7 @@ module.exports.createNewSong = (req, res) => {
                     artist_id: artistID,
                     country_id: artistDetails.country_id,
                     album_id: body.album_id ? body.album_id : 0,
+                    song_category_id: body.song_category_id ? body.song_category_id : 0,
                     is_paid: body.is_paid ? body.is_paid : 0,
                     genre_id: body.genre_id ? body.genre_id : null,
                     price: body.price ? body.price : null,
@@ -1395,6 +1398,7 @@ module.exports.updateSong = (req, res) => {
                         details: body.details,
                         artist_id: artistID,
                         album_id: body.album_id ? body.album_id : 0,
+                        song_category_id: body.song_category_id ? body.song_category_id : 0,
                         is_paid: body.is_paid ? body.is_paid : 0,
                         genre_id: body.genre_id ? body.genre_id : null,
                         price: body.price ? body.price : null,
@@ -1739,6 +1743,7 @@ module.exports.createNewPodcast = (req, res) => {
                     artist_id: artistID,
                     country_id: artistDetails.country_id,
                     category_id: body.category_id ? body.category_id : 0,
+                    podcast_category_id: body.podcast_category_id ? body.podcast_category_id : 0,
                     is_paid: body.is_paid ? body.is_paid : 0,
                     price: body.price ? body.price : null,
                     is_active: 1,
@@ -1904,6 +1909,7 @@ module.exports.updatePodcast = (req, res) => {
                         details: body.details,
                         artist_id: artistID,
                         category_id: body.category_id ? body.category_id : 0,
+                        podcast_category_id: body.podcast_category_id ? body.podcast_category_id : 0,
                         is_paid: body.is_paid ? body.is_paid : 0,
                         price: body.price ? body.price : null,
                         is_active: 1,

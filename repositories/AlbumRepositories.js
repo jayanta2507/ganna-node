@@ -2,9 +2,11 @@ const sequelize = require('../config/dbConfig').sequelize;
 var DataTypes = require('sequelize/lib/data-types');
 const AlbumModel = require('../models/albums')(sequelize, DataTypes);
 const ArtistModel = require('../models/artists')(sequelize, DataTypes);
+const AlbumCategoryModel  = require('../models/album_categories')(sequelize, DataTypes);
+
 
 AlbumModel.belongsTo(ArtistModel, { foreignKey: 'artist_id' })
-
+AlbumModel.belongsTo(AlbumCategoryModel, { foreignKey: 'album_category_id' })
 // Find All
 module.exports.findAll = (where, data) => {
     return new Promise((resolve, reject) => {
@@ -32,6 +34,10 @@ module.exports.listAlbums = (where, data) => {
                 {
                     model: ArtistModel,
                     attributes: ['full_name']
+                },
+                {
+                    model: AlbumCategoryModel,
+                    attributes:['id','name']
                 }
             ],
             offset: data.offset,
@@ -83,6 +89,10 @@ module.exports.artistDetails = (where) => {
                 {
                     model: ArtistModel,
                     attributes: ['full_name']
+                },
+                {
+                    model: AlbumCategoryModel,
+                    attributes:['id','name']
                 }
             ]
         }).then(result => {
