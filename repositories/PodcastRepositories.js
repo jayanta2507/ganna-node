@@ -6,10 +6,10 @@ const ArtistModel = require('../models/artists')(sequelize, DataTypes);
 const CountryModel = require('../models/countries')(sequelize, DataTypes);
 const PodcastCategoryModel = require('../models/podcast_categories')(sequelize, DataTypes);
 
+
 PodcastsModel.belongsTo(ArtistModel, { foreignKey: 'artist_id', as: 'artist_details' });
 PodcastsModel.belongsTo(CountryModel, { foreignKey: 'country_id', as: 'country_details' });
 PodcastsModel.belongsTo(PodcastCategoryModel, { foreignKey: 'category_id', as: 'category_details' });
-
 
 // Create
 module.exports.create = (data, t = null) => {
