@@ -1134,7 +1134,7 @@ module.exports.alubumsList = (req, res) => {
             let where = {};
             let data = {};
             let page = queryParam.page ? parseInt(queryParam.page) : 1;
-            data.limit = 20;
+            data.limit = 10;
             data.offset = data.limit ? data.limit * (page - 1) : null;
             data.order = [
                 ['id', 'DESC']
@@ -1521,7 +1521,7 @@ module.exports.songList = (req, res) => {
             let where = {};
             let data = {};
             let page = queryParam.page ? parseInt(queryParam.page) : 1;
-            data.limit = 20;
+            data.limit = 10;
             data.offset = data.limit ? data.limit * (page - 1) : null;
             data.order = [
                 ['id', 'DESC']
@@ -1842,7 +1842,7 @@ module.exports.podcastList = (req, res) => {
             let where = {};
             let data = {};
             let page = queryParam.page ? parseInt(queryParam.page) : 1;
-            data.limit = 20;
+            data.limit = 10;
             data.offset = data.limit ? data.limit * (page - 1) : null;
             data.order = [
                 ['id', 'DESC']
@@ -2084,7 +2084,7 @@ module.exports.listPodcastCategory = (req, res) => {
             let where = {};
             let data = {};
             let page = queryParam.page ? parseInt(queryParam.page) : 1;
-            data.limit = 20;
+            data.limit = 10;
             data.offset = data.limit ? data.limit * (page - 1) : null;
 
             if (queryParam.search) {
@@ -2387,7 +2387,7 @@ module.exports.listAlbumCategory = (req, res) => {
             let where = {};
             let data = {};
             let page = queryParam.page ? parseInt(queryParam.page) : 1;
-            data.limit = 20;
+            data.limit = 10;
             data.offset = data.limit ? data.limit * (page - 1) : null;
 
             if (queryParam.search) {
@@ -2689,7 +2689,7 @@ module.exports.listSongCategory = (req, res) => {
             let where = {};
             let data = {};
             let page = queryParam.page ? parseInt(queryParam.page) : 1;
-            data.limit = 20;
+            data.limit = 10;
             data.offset = data.limit ? data.limit * (page - 1) : null;
 
             if (queryParam.search) {

@@ -93,7 +93,8 @@ module.exports.artistDetails = (where) => {
                 },
                 {
                     model: AlbumCategoryModel,
-                    attributes:['id','name']
+                    attributes:['id','name'],
+                    as: 'album_category_details'
                 }
             ]
         }).then(result => {
