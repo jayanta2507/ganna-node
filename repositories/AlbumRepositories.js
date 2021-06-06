@@ -5,8 +5,8 @@ const ArtistModel = require('../models/artists')(sequelize, DataTypes);
 const AlbumCategoryModel  = require('../models/album_categories')(sequelize, DataTypes);
 
 
-AlbumModel.belongsTo(ArtistModel, { foreignKey: 'artist_id' })
-AlbumModel.belongsTo(AlbumCategoryModel, { foreignKey: 'album_category_id' })
+AlbumModel.belongsTo(ArtistModel, { foreignKey: 'artist_id' });
+AlbumModel.belongsTo(AlbumCategoryModel, { foreignKey: 'album_category_id', as: 'album_category_details' })
 // Find All
 module.exports.findAll = (where, data) => {
     return new Promise((resolve, reject) => {
@@ -37,6 +37,7 @@ module.exports.listAlbums = (where, data) => {
                 },
                 {
                     model: AlbumCategoryModel,
+                    as: 'album_category_details',
                     attributes:['id','name']
                 }
             ],
