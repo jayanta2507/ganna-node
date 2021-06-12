@@ -2916,3 +2916,66 @@ module.exports.updateSongCategory = (req, res) => {
         }
     })()
 }
+
+
+
+/*
+|------------------------------------------------ 
+| API name          :  updateArtist
+| Response          :  Respective response message in JSON format
+| Logic             :  Update Artist
+| Request URL       :  BASE_URL/artist/artist-details/update-artist-profile
+| Request method    :  PUT
+| Author            :  Suman Rana
+|------------------------------------------------
+*/
+module.exports.updateArtist = (req, res) => {
+    (async()=>{
+        let purpose = "Update Artist";
+        try {
+            let artistID = req.headers.userID;
+
+            let artistCount = await artistRepositories.count({ id: artistID });
+
+            if(artistCount > 0) {
+                let body = req.body;
+                let updateData = {
+                    full_name: body.full_name,
+                    mobile_no: body.mobile_no ? body.mobile_no : null,
+                    dob: body.dob,
+                    country_id: body.country_id,
+                    profile_image: body.profile_image ? body.profile_image : null
+                }
+
+                await sequelize.transaction(async(t)=>{
+                    await artistRepositories.updateArtist({ id: artistID }, updateData, t);
+                    await artistRepositories.updateArtistDetails({ artist_id: artistID }, { bank_country: body.country_id }, t);
+                })
+
+                return res.status(200).send({
+                    status: 200,
+                    msg: responseMessages.artistDetailsStepOne,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+            else{
+                return res.status(404).send({
+                    status: 404,
+                    msg: responseMessages.artistNotFound,
+                    data: {},
+                    purpose: purpose
+                })
+            }
+        }
+        catch(err) {
+            console.log("Update Artist Error : ", err);
+            return res.status(500).send({
+                status: 500,
+                msg: responseMessages.serverError,
+                data: {},
+                purpose: purpose
+            })
+        }
+    })()
+}

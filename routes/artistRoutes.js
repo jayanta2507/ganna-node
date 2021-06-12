@@ -196,6 +196,7 @@ router.post('/artist-details/step-two', authenticationMiddleware.authenticateArt
 router.post('/artist-details/step-three', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.artistDetailsStepThree, 'body'), artistController.saveArtistDeatislStepThree) // Save Artist Details Step Three
 router.post('/artist-details/step-four', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.artistDetailsStepFour, 'body'), artistController.saveArtistDeatislStepFour) // Save Artist Details Step Four
 router.get('/artist-details', authenticationMiddleware.authenticateArtistRequestAPI, artistController.fetchArtistDetails); // Fetch Artist Details
+router.put('/update-artist-profile', authenticationMiddleware.authenticateArtistRequestAPI, validateRequest.validate(artistValidationSchema.updateProfileSchema, 'body'), artistController.updateArtist); // Update Artist Profile
 router.get('/common-details', authenticationMiddleware.authenticateArtistRequestAPI, artistController.fetchCommonDetails); // Fetch Common Details
 
 

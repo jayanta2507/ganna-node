@@ -184,3 +184,13 @@ module.exports.updateCategorySchema = Joi.object().keys({
     details: Joi.string().required(),
     cover_picture: Joi.string().required().allow('', null),
 });
+
+// Update Profile Schema
+module.exports.updateProfileSchema = Joi.object().keys({
+    full_name: Joi.string().required(),
+    mobile_no: Joi.number().optional().min(7).allow(null, '').label('Mobile No'),
+    dob: Joi.date().required().format("YYYY-MM-DD"),
+    country_id: Joi.number().required(),
+    profile_image: Joi.string().optional().allow('', null)
+});
+
